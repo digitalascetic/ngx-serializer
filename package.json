@@ -1,6 +1,6 @@
 {
   "name": "@digitalascetic/ngx-serializer",
-  "version": "1.0.0",
+  "version": "1.0.0-dev",
   "license": "MIT",
   "main": "./bundles/ngx-serializer.umd.js",
   "module": "./esm5/ngx-serializer.js",
@@ -18,7 +18,7 @@
     "move:assets": "cp -r tmp/esm2015/*.d.ts tmp/esm2015/src tmp/esm2015/*.json package.json README.md dist/ && rm dist/src/*.js",
     "test": "karma start",
     "clean": "rm -rf dist/ && rm -rf tmp/",
-    "publish": "npm publish dist --access public"
+    "publish:dist": "npm run build && npm publish dist --access public"
   },
   "keywords": [
     "angular5",
@@ -27,8 +27,8 @@
   ],
   "dependencies": {
     "@angular/core": "^5.1.2",
-    "@digitalascetic/ngx-object-transformer": "^1.0.13",
-    "@digitalascetic/ngx-reflection": "^1.0.7",
+    "@digitalascetic/ngx-object-transformer": "^1.0.14",
+    "@digitalascetic/ngx-reflection": "^1.0.9",
     "reflect-metadata": "0.1.10"
   },
   "devDependencies": {
