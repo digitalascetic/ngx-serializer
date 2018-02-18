@@ -1,0 +1,61 @@
+{
+  "name": "@digitalascetic/ngx-serializer",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "./bundles/ngx-serializer.umd.js",
+  "module": "./esm5/ngx-serializer.js",
+  "es2015": "./esm2015/ngx-serializer.js",
+  "typings": "./ngx-serializer.d.ts",
+  "scripts": {
+    "build": "npm run clean && npm run build:inline && npm run build:esm2015 && npm run build:fesm2015 && npm run build:esm5 && npm run build:fesm5 && npm run build:umd && npm run build:min && npm run move:assets",
+    "build:inline": "mkdir -p tmp && rsync -a *.ts src ./tmp",
+    "build:esm2015": "ngc -p tsconfig-esm2015.json",
+    "build:esm5": "ngc -p tsconfig-esm5.json",
+    "build:fesm2015": "rollup -c rollup-esm2015.conf.js",
+    "build:fesm5": "rollup -c rollup-esm5.conf.js",
+    "build:umd": "rollup -c rollup-umd.conf.js",
+    "build:min": "uglifyjs dist/bundles/ngx-serializer.umd.js --screw-ie8 --compress --mangle --comments --output dist/bundles/ngx-serializer.umd.min.js",
+    "move:assets": "cp -r tmp/esm2015/*.d.ts tmp/esm2015/src tmp/esm2015/*.json package.json README.md dist/ && rm dist/src/*.js",
+    "test": "karma start",
+    "clean": "rm -rf dist/ && rm -rf tmp/",
+    "publish": "npm publish dist --access public"
+  },
+  "keywords": [
+    "angular5",
+    "metadata",
+    "serialization"
+  ],
+  "dependencies": {
+    "@angular/core": "^5.1.2",
+    "@digitalascetic/ngx-object-transformer": "^1.0.13",
+    "@digitalascetic/ngx-reflection": "^1.0.7",
+    "reflect-metadata": "0.1.10"
+  },
+  "devDependencies": {
+    "@angular/cli": "^1.6.5",
+    "@angular/compiler": "^5.1.2",
+    "@angular/compiler-cli": "^5.1.2",
+    "@angular-devkit/core": "^0.0.29",
+    "@types/jasmine": "~2.8.3",
+    "@types/jasminewd2": "~2.0.2",
+    "@types/node": "~6.0.60",
+    "codelyzer": "^4.0.1",
+    "@angular/platform-browser": "^5.1.0",
+    "@angular/platform-browser-dynamic": "^5.1.0",
+    "@angular/common": "^5.1.0",
+    "jasmine-core": "~2.8.0",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "~2.0.0",
+    "karma-chrome-launcher": "~2.2.0",
+    "karma-cli": "~1.0.1",
+    "karma-coverage-istanbul-reporter": "^1.2.1",
+    "karma-jasmine": "~1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "ts-node": "~3.2.0",
+    "tslint": "~5.9.1",
+    "typescript": "~2.5.3",
+    "rollup": "^0.52.3",
+    "uglify-js": "^3.2.2",
+    "moment": "^2.20.1"
+  }
+}
