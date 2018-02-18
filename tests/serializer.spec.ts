@@ -13,11 +13,13 @@ import {TestDescriptionPostDeserializationListener} from "./testclass/test.descr
 import {TestDescriptionHolderPostDeserializationListener} from "./testclass/test.description.holder.post.deserialization.listener";
 import {TestDescriptionHolderPostDeserializationListener2} from "./testclass/test.description.holder.post.deserialization.listener2";
 import moment = require("moment");
+import {SerializerConfig} from "../src/serializer.config";
 
 
 describe('SerializerService tests', () => {
 
-    let serializer: SerializerService = new SerializerService({propNameMapper: new PropertyAccessorMapper()});
+    let serializerConfig = new SerializerConfig(new PropertyAccessorMapper());
+    let serializer: SerializerService = new SerializerService(serializerConfig);
 
     it('should serialize with id reference replacement', () => {
 
@@ -282,10 +284,10 @@ describe('SerializerService tests', () => {
 
     it('should execute post deserialization listeners (change property)', () => {
 
-        let serializer = new SerializerService({
-            propNameMapper: new PropertyAccessorMapper(),
-            postDeserializeListeners: [new TestDescriptionHolderPostDeserializationListener()]
-        });
+        let serializerConfig = new SerializerConfig(
+            new PropertyAccessorMapper(),
+            [new TestDescriptionHolderPostDeserializationListener()]);
+        let serializer = new SerializerService(serializerConfig);
         let parsedObj = '{ "name": "testHolder", "descs": [{"id": 1, "text": "description text"}, {"id": 2, "text": "description text 2"}, {"id": 3, "text": "description text 3"}]}';
         let desObj = serializer.deserialize(parsedObj, TestDescriptionHolder);
 
@@ -312,10 +314,11 @@ describe('SerializerService tests', () => {
 
     it('should execute post deserialization listeners (object replace)', () => {
 
-        let serializer = new SerializerService({
-            propNameMapper: new PropertyAccessorMapper(),
-            postDeserializeListeners: [new TestDescriptionHolderPostDeserializationListener(), new TestDescriptionHolderPostDeserializationListener2()]
-        });
+        let serializerConfig = new SerializerConfig(
+            new PropertyAccessorMapper(),
+            [new TestDescriptionHolderPostDeserializationListener(), new TestDescriptionHolderPostDeserializationListener2()]);
+        let serializer = new SerializerService(serializerConfig);
+
         let parsedObj = '{ "name": "testHolder", "descs": [{"id": 1, "text": "description text"}, {"id": 2, "text": "description text 2"}, {"id": 3, "text": "description text 3"}]}';
         let desObj = serializer.deserialize(parsedObj, TestDescriptionHolder);
 
@@ -326,10 +329,11 @@ describe('SerializerService tests', () => {
 
     it('should execute post deserialization listeners (apply deserialization listeners to deserialized properties)', () => {
 
-        let serializer = new SerializerService({
-            propNameMapper: new PropertyAccessorMapper(),
-            postDeserializeListeners: [new TestDescriptionPostDeserializationListener()]
-        });
+        let serializerConfig = new SerializerConfig(
+            new PropertyAccessorMapper(),
+            [new TestDescriptionPostDeserializationListener()]);
+        let serializer = new SerializerService(serializerConfig);
+
         let parsedObj = '{ "name": "testHolder", "descs": [{"id": 1, "text": "description text"}, {"id": 2, "text": "description text 2"}, {"id": 3, "text": "description text 3"}]}';
         let desObj = serializer.deserialize(parsedObj, TestDescriptionHolder);
 

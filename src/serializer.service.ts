@@ -5,6 +5,7 @@ import {SerializerDirection} from "./serializer-direction";
 import {ReflectionService} from '@digitalascetic/ngx-reflection';
 import "reflect-metadata";
 import {PostDeSerializeListener} from "./post.deserialize.listener";
+import {SerializerConfig} from "./serializer.config";
 
 @Injectable()
 export class SerializerService {
@@ -16,8 +17,8 @@ export class SerializerService {
     private _reflectionService: ReflectionService;
 
     private _postDeserializeListeners: PostDeSerializeListener[];
-    //{ propNameMapper?: PropertyNameMapper, postDeserializeListeners?: PostDeSerializeListener[] } = {}
-    constructor(config?: any) {
+
+    constructor(config: SerializerConfig = new SerializerConfig()) {
         this._propNameMapper = config.propNameMapper;
         this._postDeserializeListeners = config.postDeserializeListeners || [];
         this._reflectionService = new ReflectionService();

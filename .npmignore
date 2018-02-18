@@ -6,3 +6,6 @@ karma.conf.js
 rollpu.config.js
 tsconfig.json
 tslint.json
+tmp
+.idea
+ngx-serializer.iml
