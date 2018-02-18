@@ -1,30 +1,19 @@
-import * as moment from 'moment';
 import {SerializerService} from "../src/serializer.service";
-import {
-    SerializerExclude, SerializerReplace, SerializerTransformer
-} from "../src/serializer.metadata";
-import {PostDeSerializeListener} from "../src/post.deserialize.listener";
-import {PrimaryKeyObject, PropertyAccessorMapper, DateTransformer} from "@digitalascetic/ngx-object-transformer";
-import {Type} from "@digitalascetic/ngx-reflection";
+import {PropertyAccessorMapper} from "@digitalascetic/ngx-object-transformer";
+import {TestSer} from "./testclass/test.ser";
+import {TestDescription} from "./testclass/test.description";
+import {TestDescriptionHolder} from "./testclass/test.description.hoilder";
+import {TestDecoratorClass} from "./testclass/test.decorator.class";
+import {TestClass} from "./testclass/test.class";
+import {ComposedTestClass} from "./testclass/composed.test.class";
+import {ChildTestClass} from "./testclass/child.test.class";
+import {UndefinedPropTestClass} from "./testclass/undefined.prop.test.class";
+import {ComposedUndefinedProp} from "./testclass/composed.unidefined.prop";
+import {TestDescriptionPostDeserializationListener} from "./testclass/test.description.post.deserialization.listener";
+import {TestDescriptionHolderPostDeserializationListener} from "./testclass/test.description.holder.post.deserialization.listener";
+import {TestDescriptionHolderPostDeserializationListener2} from "./testclass/test.description.holder.post.deserialization.listener2";
+import moment = require("moment");
 
-class TestSer implements PrimaryKeyObject {
-
-    getPrimaryKeyPropertyName(): string {
-        return "id";
-    }
-
-    @Type()
-    public id: number;
-
-    @Type(() => TestSer)
-    public relatedTestSer: TestSer|null;
-
-    constructor(id: number, relatedTestSer: TestSer|null) {
-        this.id = id;
-        this.relatedTestSer = relatedTestSer;
-    }
-
-}
 
 describe('SerializerService tests', () => {
 
@@ -48,41 +37,37 @@ describe('SerializerService tests', () => {
 
 
     });
-    /*
-   it('Should serialize dates as for SerializerType specified format', () => {
 
-       let agency: Agency = new Agency('Test agency', 1);
+    it('Should serialize dates as for DateTransformer format', () => {
 
-       let agencyCompany: AgencyCompany = new AgencyCompany('Bluplat s.l.', 'HIIIIIIII', new Address());
+        let startDate: Date = moment('2016-01-01').toDate();
 
-       let startDate: Date = moment('2016-01-01').toDate();
+        let testObject: TestClass = new TestClass('Test agency', new TestDescription('description'), startDate);
 
-       let endDate: Date = moment('2016-05-01').toDate();
-       let agencyContract: AgencyContract = new AgencyContract(agency, agencyCompany, startDate, endDate, 1);
 
-       let contractSerialized = serializer.serialize(agencyContract);
-       let contactDeserialized = JSON.parse(contractSerialized);
+        let testObjSerialized = serializer.serialize(testObject);
+        let testObjectDeserialized = JSON.parse(testObjSerialized);
 
-       expect(contactDeserialized.startDate).toBe('2016-01-01');
-       expect(contactDeserialized.endDate).toBe('2016-05-01');
+        expect(testObjectDeserialized.startDate).toBe('2016-01-01');
 
-   });
 
-   it('Should serialize properly arrays', () => {
+    });
 
-       let agency: Agency = new Agency('Test agency', 1);
-       let agency2: Agency = new Agency('Test agency 2', 2);
+    it('Should properly serialize arrays', () => {
 
-       let agencyArray = [agency, agency2];
+        let desc: TestDescription = new TestDescription('Test description', 1);
+        let desc2: TestDescription = new TestDescription('Test description 2', 2);
 
-       let arraySerialized = serializer.serialize(agencyArray);
-       let arrayDeserialized = JSON.parse(arraySerialized);
+        let descArray = [desc, desc2];
 
-       expect(arrayDeserialized[0].id).toBe(1);
-       expect(arrayDeserialized[1].id).toBe(2);
+        let arraySerialized = serializer.serialize(descArray);
+        let arrayDeserialized = JSON.parse(arraySerialized);
 
-   });
-    */
+        expect(arrayDeserialized[0].id).toBe(1);
+        expect(arrayDeserialized[1].id).toBe(2);
+
+    });
+
     it('Should properly handle circular references', () => {
 
         let testSer1 = new TestSer(1, null);
@@ -170,13 +155,15 @@ describe('SerializerService tests', () => {
         expect(desTestObject.description.id).toBe(1);
         expect(desTestObject.description.text).toBe("description text");
         expect(desTestObject.startDate).toBeDefined();
-        expect(desTestObject.startDate.getTime()).toBe(1451602800000);
+        expect(desTestObject.startDate.getFullYear()).toBe(2016);
+        expect(desTestObject.startDate.getMonth()).toBe(0);
+        expect(desTestObject.startDate.getDate()).toBe(1);
 
     });
 
     it('should deserialize from object correctly deeply composed objects', () => {
 
-        let jsonTestObject = '{ "id": 1, "testClass": { "name": "testObject", "description": {"id": 1, "text": "description text"}, "startDate": "2016-01-01"}}';
+        let jsonTestObject = '{ "id": 1, "testClass": { "name": "testObject", "description": {"id": 1, "text": "description text"}, "startDate": "2017-02-20"}}';
         let desTestObject: ComposedTestClass = serializer.deserialize(jsonTestObject, ComposedTestClass);
 
         expect(desTestObject).toBeDefined();
@@ -187,7 +174,9 @@ describe('SerializerService tests', () => {
         expect(desTestObject.testClass.description instanceof TestDescription).toBeTruthy();
         expect(desTestObject.testClass.description.text).toBe("description text");
         expect(desTestObject.testClass.startDate).toBeDefined();
-        expect(desTestObject.testClass.startDate.getTime()).toBe(1451602800000);
+        expect(desTestObject.testClass.startDate.getFullYear()).toBe(2017);
+        expect(desTestObject.testClass.startDate.getMonth()).toBe(1);
+        expect(desTestObject.testClass.startDate.getDate()).toBe(20);
 
     });
 
@@ -204,7 +193,9 @@ describe('SerializerService tests', () => {
         expect(desTestObject.description.id).toBe(1);
         expect(desTestObject.description.text).toBe("description text");
         expect(desTestObject.startDate).toBeDefined();
-        expect(desTestObject.startDate.getTime()).toBe(1451602800000);
+        expect(desTestObject.startDate.getFullYear()).toBe(2016);
+        expect(desTestObject.startDate.getMonth()).toBe(0);
+        expect(desTestObject.startDate.getDate()).toBe(1);
         expect(desTestObject.childType).toBe("myChild");
 
     });
@@ -366,301 +357,3 @@ describe('SerializerService tests', () => {
 
 
 });
-
-class TestDescription {
-
-    @Type(() => Number)
-    private _id: number | undefined;
-
-    private _text: string;
-
-    constructor(text: string, id?: number) {
-        this._text = text;
-        this._id = id;
-    }
-
-
-    get id(): number | undefined {
-        return this._id;
-    }
-
-    get text(): string {
-        return this._text;
-    }
-
-    set text(value: string) {
-        this._text = value;
-    }
-}
-
-class ExtendedTestDescription extends TestDescription {
-
-    private _moreDescription: string;
-
-    constructor(text: string, id: number, moreDescription: string) {
-        super(text, id);
-        this._moreDescription = moreDescription;
-    }
-
-    get moreDescription(): string {
-        return this._moreDescription;
-    }
-
-    set moreDescription(value: string) {
-        this._moreDescription = value;
-    }
-}
-
-
-class ComposedTestClass {
-
-    @Type()
-    private _id: number;
-
-    @Type(() => TestClass)
-    private _testClass: TestClass;
-
-    constructor(id: number, testClass: TestClass) {
-        this._id = id;
-        this._testClass = testClass;
-    }
-
-    get testClass(): TestClass {
-        return this._testClass;
-    }
-
-    set testClass(value: TestClass) {
-        this._testClass = value;
-    }
-
-    get id(): number {
-        return this._id;
-    }
-
-    set id(value: number) {
-        this._id = value;
-    }
-}
-
-class TestClass {
-
-    private _name: string;
-
-    @Type(() => TestDescription)
-    private _description: TestDescription;
-
-    @SerializerTransformer(new DateTransformer("YYYY-MM-DD"))
-    @Type(() => Date)
-    private _startDate: Date;
-
-    constructor(name: string, description: TestDescription, startDate: Date) {
-        this._name = name;
-        this._description = description;
-        this._startDate = startDate;
-    }
-
-
-    get name(): string {
-        return this._name;
-    }
-
-    get description(): TestDescription {
-        return this._description;
-    }
-
-    get startDate(): Date {
-        return this._startDate;
-    }
-}
-
-class ChildTestClass extends TestClass {
-
-    private _childType: number;
-
-    constructor(name: string, description: TestDescription, startDate: Date, childType: number) {
-        super(name, description, startDate);
-        this._childType = childType;
-    }
-
-    get childType(): number {
-        return this._childType;
-    }
-}
-
-class TestDecoratorClass {
-
-    @SerializerReplace("id")
-    @Type(() => TestDescription)
-    private _description: TestDescription;
-
-    @SerializerExclude()
-    private _notInSer: string;
-
-    private _inSer: number;
-
-    constructor(description: TestDescription, notInSer: string, inSer: number) {
-        this._description = description;
-        this._notInSer = notInSer;
-        this._inSer = inSer;
-    }
-
-    get description(): TestDescription {
-        return this._description;
-    }
-
-    get notInSer(): string {
-        return this._notInSer;
-    }
-
-    get inSer(): number {
-        return this._inSer;
-    }
-}
-
-class TestDescriptionHolder {
-
-    private _name: string;
-
-    private _type: string;
-
-    @Type(() => TestDescription)
-    private _descs: Array<TestDescription>;
-
-    constructor(name: string, descs: Array<TestDescription>) {
-        this._name = name;
-        this._descs = descs || [];
-    }
-
-
-    get name(): string {
-        return this._name;
-    }
-
-    set name(value: string) {
-        this._name = value;
-    }
-
-    get type(): string {
-        return this._type;
-    }
-
-    get descs(): Array<TestDescription> {
-        return this._descs;
-    }
-}
-
-class UndefinedPropTestClass {
-
-    @Type()
-    private _name: string;
-
-    @Type()
-    private _id: number;
-
-    @Type(() => ComposedUndefinedProp)
-    private _compProp: ComposedUndefinedProp;
-
-    constructor(name: string) {
-        this._name = name;
-    }
-
-
-    get name(): string {
-        return this._name;
-    }
-
-    set name(value: string) {
-        this._name = value;
-    }
-
-    get id(): number {
-        return this._id;
-    }
-
-    set id(value: number) {
-        this._id = value;
-    }
-
-
-    get compProp(): ComposedUndefinedProp {
-        return this._compProp;
-    }
-
-    set compProp(value: ComposedUndefinedProp) {
-        this._compProp = value;
-    }
-}
-
-class ComposedUndefinedProp {
-
-    @Type()
-    private _name: string;
-
-    @Type()
-    private _test: boolean;
-
-    @Type(() => ComposedUndefinedProp)
-    private _parent: ComposedUndefinedProp;
-
-
-    constructor(name: string) {
-        this._name = name;
-    }
-
-
-    get name(): string {
-        return this._name;
-    }
-
-    set name(value: string) {
-        this._name = value;
-    }
-
-    get test(): boolean {
-        return this._test;
-    }
-
-    set test(value: boolean) {
-        this._test = value;
-    }
-
-    get parent(): ComposedUndefinedProp {
-        return this._parent;
-    }
-
-    set parent(value: ComposedUndefinedProp) {
-        this._parent = value;
-    }
-}
-
-class TestDescriptionPostDeserializationListener implements PostDeSerializeListener {
-
-    onPostDeserialize(obj: any, clazz?: Function): any {
-        if (clazz === TestDescription) {
-            let td: TestDescription = obj;
-            td.text = 'new text';
-        }
-    }
-
-}
-
-class TestDescriptionHolderPostDeserializationListener implements PostDeSerializeListener {
-
-    onPostDeserialize(obj: any, clazz?: Function): any {
-        if (clazz === TestDescriptionHolder) {
-            let tdh: TestDescriptionHolder = obj;
-            tdh.name = 'name changed';
-        }
-    }
-
-}
-
-class TestDescriptionHolderPostDeserializationListener2 implements PostDeSerializeListener {
-
-    onPostDeserialize(obj: any, clazz?: Function): any {
-        if (clazz === TestDescriptionHolder) {
-            return "new object";
-        }
-    }
-
-}
