@@ -1,6 +1,6 @@
 {
   "name": "@digitalascetic/ngx-serializer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "main": "./bundles/ngx-serializer.umd.js",
   "module": "./esm5/ngx-serializer.js",
