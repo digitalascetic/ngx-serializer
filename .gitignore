@@ -43,3 +43,5 @@ testem.log
 Thumbs.db
 
 ngx-serializer.iml
+
+release.sh
