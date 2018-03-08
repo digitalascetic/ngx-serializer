@@ -3,3 +3,4 @@ export {SerializerService} from './serializer.service';
 export {SerializerTransformer, SerializerExclude, SerializerReplace} from './serializer.metadata';
 export {SerializerDirection} from './serializer-direction';
 export {PostDeSerializeListener} from './post.deserialize.listener';
+export {SerializerConfig} from './serializer.config';
