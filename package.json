@@ -1,6 +1,7 @@
 {
   "name": "@digitalascetic/ngx-serializer",
-  "version": "1.0.4",
+  "description": "Angular 2 serialization package",
+  "version": "1.0.5",
   "license": "MIT",
   "main": "./bundles/ngx-serializer.umd.js",
   "module": "./esm5/ngx-serializer.js",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^1.6.5",
+    "ssri": "^5.2.2",
     "@angular/compiler": "^5.1.2",
     "@angular/compiler-cli": "^5.1.2",
     "@angular-devkit/core": "^0.0.29",
@@ -57,5 +59,6 @@
     "rollup": "^0.52.3",
     "uglify-js": "^3.2.2",
     "moment": "^2.20.1"
-  }
+  },
+  "repository": "https://github.com/digitalascetic/ngx-serializer"
 }
