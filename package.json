@@ -1,7 +1,7 @@
 {
   "name": "@digitalascetic/ngx-serializer",
   "description": "Angular 2 serialization package",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "main": "./bundles/ngx-serializer.umd.js",
   "module": "./esm5/ngx-serializer.js",

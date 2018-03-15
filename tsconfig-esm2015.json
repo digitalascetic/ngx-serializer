@@ -22,7 +22,7 @@
     "annotateForClosureCompiler": true,
     "strictMetadataEmit": true,
     "skipTemplateCodeGen": true,
-    "flatModuleId": "ngx-serializer",
+    "flatModuleId": "@digitalascetic/ngx-serializer",
     "flatModuleOutFile": "ngx-serializer.js"
   }
 }

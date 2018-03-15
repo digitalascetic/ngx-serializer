@@ -4,7 +4,7 @@ export default {
         file: 'dist/bundles/ngx-serializer.umd.js',
         format: 'umd'
     },
-    name: 'ngx-serializer',
+    name: 'ng.ngx-serializer',
     external: ['@angular/core', '@digitalascetic/ngx-reflection', 'reflect-metadata'],
     globals: {
         '@angular/core': 'ng.core',
