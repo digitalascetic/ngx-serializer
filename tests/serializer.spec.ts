@@ -40,6 +40,29 @@ describe('SerializerService tests', () => {
 
     });
 
+    it('should serialize without id reference replacement', () => {
+
+        let testDesc = new TestDescription('desc', 23);
+        let testDescNotId = new TestDescription('desc');
+        let testDecorator = new TestDecoratorClass(testDesc, 'notInSer', 99);
+        testDecorator.description2 = testDescNotId;
+
+        let testDecoratorSer = serializer.serialize(testDecorator);
+        let parsedTestDec = JSON.parse(testDecoratorSer);
+
+        expect(parsedTestDec).toBeDefined();
+        expect(parsedTestDec.description2).toBeDefined();
+        expect(parsedTestDec.description2.id).not.toBeDefined();
+        expect(parsedTestDec.description).toBeDefined();
+        expect(parsedTestDec.description.id).toBeDefined();
+        expect(parsedTestDec.description.id).toBe(23);
+        expect(parsedTestDec.inSer).toBeDefined();
+        expect(parsedTestDec.inSer).toBe(99);
+        expect(parsedTestDec.notInSer).not.toBeDefined();
+
+
+    });
+
     it('Should serialize dates as for DateTransformer format', () => {
 
         let startDate: Date = moment('2016-01-01').toDate();

@@ -112,7 +112,7 @@ export class SerializerService {
                                 return;
                             }
 
-                            if (replaceProp && obj[prop] instanceof Object) {
+                            if (replaceProp && obj[prop] instanceof Object && replacePropObj['excludeIfNull']) {
 
                                 if (typeof obj[prop][origPropName] === 'undefined' ||
                                     obj[prop][origPropName] === null) {

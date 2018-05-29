@@ -8,6 +8,10 @@ export class TestDecoratorClass {
     @Type(() => TestDescription)
     private _description: TestDescription;
 
+    @Type(() => TestDescription)
+    @SerializerReplace("id", false)
+    private _description2: TestDescription;
+
     @SerializerExclude()
     private _notInSer: string;
 
@@ -29,5 +33,13 @@ export class TestDecoratorClass {
 
     get inSer(): number {
         return this._inSer;
+    }
+
+    get description2(): TestDescription {
+        return this._description2;
+    }
+
+    set description2(value: TestDescription) {
+        this._description2 = value;
     }
 }
