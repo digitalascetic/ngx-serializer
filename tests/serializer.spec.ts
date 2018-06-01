@@ -24,7 +24,9 @@ describe('SerializerService tests', () => {
     it('should serialize with id reference replacement', () => {
 
         let testDesc = new TestDescription('desc', 23);
+        let testDesc2 = new TestDescription('desc', 45);
         let testDecorator = new TestDecoratorClass(testDesc, 'notInSer', 99);
+        testDecorator.description2 = testDesc2;
 
         let testDecoratorSer = serializer.serialize(testDecorator);
         let parsedTestDec = JSON.parse(testDecoratorSer);
@@ -33,9 +35,12 @@ describe('SerializerService tests', () => {
         expect(parsedTestDec.description).toBeDefined();
         expect(parsedTestDec.description.id).toBeDefined();
         expect(parsedTestDec.description.id).toBe(23);
+        expect(parsedTestDec.description2).toBeDefined();
+        expect(parsedTestDec.description2.id).toBeDefined();
+        expect(parsedTestDec.description2.text).not.toBeDefined();
         expect(parsedTestDec.inSer).toBeDefined();
         expect(parsedTestDec.inSer).toBe(99);
-        expect(parsedTestDec.notInSer).not.toBeDefined()
+        expect(parsedTestDec.notInSer).not.toBeDefined();
 
 
     });
@@ -53,7 +58,9 @@ describe('SerializerService tests', () => {
         expect(parsedTestDec).toBeDefined();
         expect(parsedTestDec.description2).toBeDefined();
         expect(parsedTestDec.description2.id).not.toBeDefined();
+        expect(parsedTestDec.description2.text).toBeDefined();
         expect(parsedTestDec.description).toBeDefined();
+        expect(parsedTestDec.description.text).not.toBeDefined();
         expect(parsedTestDec.description.id).toBeDefined();
         expect(parsedTestDec.description.id).toBe(23);
         expect(parsedTestDec.inSer).toBeDefined();
