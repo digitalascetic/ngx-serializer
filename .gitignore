@@ -45,3 +45,4 @@ Thumbs.db
 ngx-serializer.iml
 
 release.sh
+package-lock.json
