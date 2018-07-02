@@ -1,5 +1,10 @@
-# NGX Serializer
+# @digitalascetic/ngx-serializer
 
+## Important
+@digitalascetic/ngx-serializer Angular 5 compatibility is under version **1.0.8**  
+```bash
+$ npm install @digitalascetic/ngx-serializer@1.0.8 --save
+```
 
 
 ## Build
