@@ -12,7 +12,7 @@ import {ComposedUndefinedProp} from './testclass/composed.unidefined.prop';
 import {TestDescriptionPostDeserializationListener} from './testclass/test.description.post.deserialization.listener';
 import {TestDescriptionHolderPostDeserializationListener} from './testclass/test.description.holder.post.deserialization.listener';
 import {TestDescriptionHolderPostDeserializationListener2} from './testclass/test.description.holder.post.deserialization.listener2';
-import * as moment from 'moment';
+import * as moment from 'moment-mini';
 import {SerializerConfig} from './serializer.config';
 
 
