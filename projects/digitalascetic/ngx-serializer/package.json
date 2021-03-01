@@ -1,9 +1,9 @@
 {
   "name": "@digitalascetic/ngx-serializer",
-  "version": "9.0.0",
+  "version": "9.0.1",
   "peerDependencies": {
-    "@angular/common": "~9.0.6",
-    "@angular/core": "~9.0.6",
+    "@angular/common": ">=9.0.6",
+    "@angular/core": ">=9.0.6",
     "@digitalascetic/ngx-object-transformer": "^9.0.0",
     "@digitalascetic/ngx-reflection": "^9.0.0"
   }
