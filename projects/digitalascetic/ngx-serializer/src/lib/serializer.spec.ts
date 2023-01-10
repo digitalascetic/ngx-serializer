@@ -12,7 +12,6 @@ import {ComposedUndefinedProp} from './testclass/composed.unidefined.prop';
 import {TestDescriptionPostDeserializationListener} from './testclass/test.description.post.deserialization.listener';
 import {TestDescriptionHolderPostDeserializationListener} from './testclass/test.description.holder.post.deserialization.listener';
 import {TestDescriptionHolderPostDeserializationListener2} from './testclass/test.description.holder.post.deserialization.listener2';
-import * as moment from 'moment-mini';
 import {SerializerConfig} from './serializer.config';
 
 
@@ -72,7 +71,7 @@ describe('SerializerService tests', () => {
 
     it('Should serialize dates as for DateTransformer format', () => {
 
-        let startDate: Date = moment('2016-01-01').toDate();
+        let startDate: Date = new Date('2016-01-01');
 
         let testObject: TestClass = new TestClass('Test agency', new TestDescription('description'), startDate);
 

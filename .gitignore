@@ -47,3 +47,4 @@ ngx-serializer.iml
 release.sh
 package-lock.json
 browserslist
+.angular
