@@ -1,13 +1,14 @@
 {
   "name": "@digitalascetic/ngx-serializer",
-  "version": "14.0.0",
+  "version": "17.0.0",
   "peerDependencies": {
-    "@angular/common": ">=14.2.0",
-    "@angular/core": ">=14.2.0",
-    "@digitalascetic/ngx-object-transformer": "^14.0.1",
+    "@angular/common": ">=17.1.0",
+    "@angular/core": ">=17.1.0",
+    "@digitalascetic/ngx-object-transformer": "^17.0.0",
     "@digitalascetic/ngx-reflection": "^14.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
-  }
+  },
+  "sideEffects": false
 }

@@ -7,17 +7,18 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": false,
     "strictNullChecks": false,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "strictPropertyInitialization": false,
-    "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "paths": {
       "@digitalascetic/ngx-serializer": [
         "dist/digitalascetic/ngx-serializer"
+      ],
+      "@digitalascetic/ngx-serializer/*": [
+        "dist/digitalascetic/ngx-serializer/*"
       ]
     },
     "declaration": false,
@@ -36,6 +37,8 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictPropertyInitialization": false,
+    "strictTemplates": false,
+    "compilationMode": "partial"
   }
 }

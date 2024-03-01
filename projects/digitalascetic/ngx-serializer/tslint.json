@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "ascser",
+      "ascform",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "ascser",
+      "ascform",
       "kebab-case"
     ]
   }
