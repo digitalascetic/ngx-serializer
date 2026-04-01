@@ -81,7 +81,7 @@ export class SerializerService {
                     }
 
 
-                    let exclude = Reflect.getMetadata('SerializerExclude', obj, prop);
+                    let exclude = this.getMetadata(obj, prop, 'SerializerExclude');
 
                     if (exclude && (exclude.direction == SerializerDirection.ANY ||
                             exclude.direction == SerializerDirection.SERIALIZE) &&
@@ -193,7 +193,7 @@ export class SerializerService {
         this._reflectionService.getObjectProperties(obj).forEach(
             prop => {
 
-                let exclude = Reflect.getMetadata('SerializerExclude', obj, prop);
+                let exclude = this.getMetadata(obj, prop, 'SerializerExclude');
 
                 if (exclude && (exclude.direction === SerializerDirection.ANY ||
                         exclude.direction === SerializerDirection.DESERIALIZE) &&
@@ -252,6 +252,11 @@ export class SerializerService {
         if (obj.__serializer && obj.__serializer[prop]) {
             if (metadataKey == 'SerializerReplace') {
                 metadata = {prop: obj.__serializer[prop][metadataKey]};
+            } else if (metadataKey == 'SerializerExclude') {
+                const excludeConfig = obj.__serializer[prop][metadataKey];
+                if (excludeConfig) {
+                    metadata = {...excludeConfig, func: excludeConfig.func ?? (() => true)};
+                }
             } else {
                 metadata = obj.__serializer[prop][metadataKey];
             }
